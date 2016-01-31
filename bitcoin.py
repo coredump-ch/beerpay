@@ -11,7 +11,7 @@ import hashlib
 import ecdsa
 
 
-def _generate_public_key():
+def _generate_public_key() -> bytes:
     """
     Generate a master public key.
     """
@@ -20,7 +20,7 @@ def _generate_public_key():
     return vk.to_string()
 
 
-def _compress_key(key):
+def _compress_key(key: bytes) -> bytes:
     """
     Return a compressed representation of the key.
     """
@@ -30,7 +30,7 @@ def _compress_key(key):
     return binascii.unhexlify(prefix + hexkey[:64])
 
 
-def _hash160(data):
+def _hash160(data: bytes) -> bytes:
     """
     The Hash160 function is defined as `ripemd160(sha256(data))`.
     """
@@ -46,7 +46,7 @@ def _hash160(data):
     return step2
 
 
-def _checksum(hexdigest):
+def _checksum(hexdigest: str) -> str:
     """
     Calculate the checksum: `sha256(sha256(digest))[:8]`
     """
@@ -55,7 +55,7 @@ def _checksum(hexdigest):
     return step2[:8]
 
 
-def _encode58(string, int_val, chars):
+def _encode58(string: str, int_val: int, chars: str) -> str:
     """
     Recursive encoding function. Used by `_base58encode`.
     """
@@ -67,17 +67,17 @@ def _encode58(string, int_val, chars):
         return _encode58(new_string, new_val, chars)
 
 
-def _base58encode(hexdata):
+def _base58encode(hexdata: str) -> str:
     """
     Do Base58 encoding of hex data.
     """
     chars = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
     int_val = int(hexdata, 16)
-    encoded = _encode58("", int_val, chars)
+    encoded = _encode58('', int_val, chars)
     return encoded
 
 
-def generate_sin():
+def generate_sin() -> str:
     """
     Generate a bitcion SIN (Secure Identity Number).
 
